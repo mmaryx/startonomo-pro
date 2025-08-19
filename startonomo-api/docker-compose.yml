@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel-api
+    ports:
+      - "8080:80"   # Mapeando a porta 80 do container para a porta 8080 na máquina host
+    volumes:
+      - ./startonomo-api:/var/www/html    # Diretório da API será montado no container
+      - ./nginx/laravel.conf:/etc/nginx/sites-available/default  # A configuração do Nginx será copiada para o container
+    networks:
+      - startonomo-net
+
+networks:
+  startonomo-net:
+    driver: bridge

@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.react  # O Dockerfile do React
+    container_name: react-frontend
+    ports:
+      - "3000:80"   # Mapeando a porta 3000 para a 80 do container (ou 3000:3000 para desenvolvimento)
+    volumes:
+      - ./startonomo-ui:/app      # Montar o diretório local para permitir live reload
+    networks:
+      - startonomo-net
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile     # O Dockerfile do Laravel
+    container_name: laravel-backend
+    ports:
+      - "8080:80"    # Mapeando a porta 80 do container para a 8080 do host
+    volumes:
+      - ./startonomo-api:/var/www/html
+    networks:
+      - startonomo-net
+
+networks:
+  startonomo-net:
+    driver: bridge
